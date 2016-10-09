@@ -1,5 +1,31 @@
-Words<br />
-<br />
+{% extends "base.html" %}
+
+{% block body %}
+
+<form method="post" action="/" class="" style="padding-top: 40px" >
+  <div class="mdl-layout__header-row">
+    <div class="mdl-textfield mdl-js-textfield" style="width: 80%;" >
+      <input class="mdl-textfield__input" type="url" name="url" placeholder="{{url or 'enter url'}}" id="f-url" >
+      <label class="mdl-textfield__label" for="f-url">URL</label>
+    </div>
+    <div class="mdl-layout-spacer"></div>
+
+    <nav class="mdl-navigation">
+  <button type="submit" class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored" style="" >
+    <i class="material-icons">send</i>
+  </button>
+    </nav>
+  </div>
+  {% raw xsrf_form_html() %}
+</form>
+
+<div style="padding: 80px; text-align: center;" >
 {% for word in words %}
-{{ word.hash }} : {{ word.counter }}<br />
+<span class="mdl-chip mdl-chip--contact chip-size-{{ size(word['counter']) }}">
+  <span class="mdl-chip__contact mdl-color--teal mdl-color-text--white">{{word['counter']}}</span>
+  <span class="mdl-chip__text" >{{ word['word'] }}</span>
+</span>
+{% end %}
+</div>
+
 {% end %}

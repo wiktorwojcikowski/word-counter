@@ -9,13 +9,15 @@ import tornado.escape
 import tornado.web
 import tornado.wsgi
 import unicodedata
+from math import ceil
 
-from config import settings
 
 import sqlalchemy as sa
 from sqlalchemy.orm import scoped_session, sessionmaker
 
+import settings
 import models
+import utils
 
 
 def admin(method):
@@ -50,20 +52,48 @@ class BaseHandler(tornado.web.RequestHandler):
 
 class UrlFetcher(BaseHandler):
     def get(self):
-        self.render("words.html", words=[])
+        self.render("words.html", words=[], url='')
 
     def post(self):
-        #word = models.Word(key='test', hash='test', counter=0)
-        #self.db.add(word);
-        #self.db.commit()
-        words = self.db.query(models.Word).all()
-        self.render("words.html", words=words)
+        url = self.get_argument('url', '')
+        words = []
+        if url:
+            words = utils.count_words(url)
+            utils.store_words(words, self.db)
+        
+        max = 0
+        for word in words:
+            if word['counter'] > max:
+                max = word['counter']
+        if max < 5:
+            max = 5;
+
+        def size(counter):
+            return int(ceil(counter / ceil(max/5)))
+
+        self.render("words.html", words=words, url=url, size=size)
+
+class WordsAdmin(BaseHandler):
+
+    @admin
+    def get(self):
+        words = self.db.query(models.Word).order_by(sa.desc(models.Word.counter)).all()
+        self.render("admin.html", words=words)
+
+    def post(self):
+        if self.get_argument('operation', '') == 'truncate':
+            # connection = self.db.connection()
+            # connection.execute("TRUNCATE word;")
+            self.db.query(models.Word).delete()
+            self.db.commit()
+        self.redirect('/admin/')
 
 
 class Application(tornado.web.Application):
     def __init__(self):
         handlers = [
-            tornado.web.url(r"/", UrlFetcher),
+            (r"/", UrlFetcher),
+            (r"/admin/", WordsAdmin)
         ]
         options = dict(
             static_path=os.path.join(os.path.dirname(__file__), "static"),

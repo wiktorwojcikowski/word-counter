@@ -5,7 +5,7 @@ from logging.config import fileConfig
 
 import sys, os
 sys.path.append(os.path.abspath('%s/..' % os.path.dirname(__file__)))
-from config import settings
+import settings
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

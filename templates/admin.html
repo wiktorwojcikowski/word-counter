@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block body %}
+<form style="margin: 30px 10% 20px; width: 80%;" action="/admin/" method="POST" >
+  {% raw xsrf_form_html() %}
+  <input type="hidden" name="operation" value="truncate" >
+  <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" style="float: right;">TRUNCATE</button>
+  <h1 style="margin: 0px;" >Global Words Counts</h1>
+</form>
+<table class="mdl-data-table mdl-js-data-table mdl-shadow--4dp" style="width: 80%; margin: 0px 10%;" >
+  <thead>
+    <tr>
+      <th class="mdl-data-table__cell--non-numeric">Word</th>
+      <th>Counter</th>
+    </tr>
+  </thead>
+  <tbody>
+{% for word in words %}
+    <tr>
+      <td class="mdl-data-table__cell--non-numeric">{{ word.word }}</td>
+      <td>{{ word.counter }}</td>
+    </tr>
+{% end %}
+  </tbody>
+</table>
+{% end %}

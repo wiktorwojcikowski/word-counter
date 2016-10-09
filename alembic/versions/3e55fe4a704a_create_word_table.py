@@ -19,7 +19,7 @@ def upgrade():
     op.create_table(
         'word',
         sa.Column('key', sa.String(32), primary_key=True),
-        sa.Column('hash', sa.String(50), nullable=False),
+        sa.Column('token', sa.String(500), nullable=False),
         sa.Column('counter', sa.Integer()),
     )
     pass

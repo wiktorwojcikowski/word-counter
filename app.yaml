@@ -10,3 +10,18 @@ handlers:
 - url: /.*
   script: app.app
 # [END handlers]
+
+libraries:
+- name: pycrypto
+  version: "2.6"
+
+#[START env]
+env_variables:
+  SQLALCHEMY_DATABASE_URI: mysql+pymysql://root:Password123@/wordcounter?unix_socket=/cloudsql/word-counter-145910:us-central1:word-counter-db
+#[END env]
+
+
+#[START cloudsql_settings]
+beta_settings:
+  cloud_sql_instances: word-counter-145910:us-central1:word-counter-db
+#[END cloudsql_settings]
