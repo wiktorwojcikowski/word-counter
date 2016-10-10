@@ -69,7 +69,7 @@ class UrlFetcher(BaseHandler):
             max = 5;
 
         def size(counter):
-            return int(ceil(counter / ceil(max/5)))
+            return min(int(ceil(counter / ceil(max/5))), 5)
 
         self.render("words.html", words=words, url=url, size=size)
 
@@ -82,8 +82,6 @@ class WordsAdmin(BaseHandler):
 
     def post(self):
         if self.get_argument('operation', '') == 'truncate':
-            # connection = self.db.connection()
-            # connection.execute("TRUNCATE word;")
             self.db.query(models.Word).delete()
             self.db.commit()
         self.redirect('/admin/')
