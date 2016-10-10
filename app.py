@@ -23,7 +23,7 @@ import utils
 def admin(method):
     @functools.wraps(method)
     def wrapper(self, *args, **kwargs):
-        if not self.current_user or not self.current_user.administrator:
+        if not self.current_user: # or not self.current_user.administrator:
             if self.request.method == "GET":
                 self.redirect(self.get_login_url())
                 return
