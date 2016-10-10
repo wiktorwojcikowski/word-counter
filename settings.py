@@ -10,4 +10,4 @@ env = os.getenv('SERVER_SOFTWARE')
 if (env and env.startswith('Google App Engine/')):
     SQLALCHEMY_DATABASE_URI = os.environ['SQLALCHEMY_DATABASE_URI']
 else:
-    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:Password123@localhost/wordcounter'
+    SQLALCHEMY_DATABASE_URI = 'mysql+mysqldb://root:Password123@localhost/wordcounter'
