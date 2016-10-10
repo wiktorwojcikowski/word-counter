@@ -13,7 +13,7 @@ dev_appserver.py ./
 ```
 
 
-## development
+## Development
 
 ```ssh
 virtualenv venv --distribute
