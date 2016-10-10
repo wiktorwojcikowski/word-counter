@@ -29,7 +29,7 @@ def count_words(url):
         else:
             counters[word] = 1
 
-    top_counters = sorted(counters.items(), key=operator.itemgetter(1))[-10:]
+    top_counters = sorted(counters.items(), key=operator.itemgetter(1))[-100:]
     top_counters = sorted(top_counters, key=operator.itemgetter(0))
     return [{'word': word, 'counter': counter} for word, counter in top_counters]
 
